@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>iOS Contact Cleaner — de-dupe & merge contacts, 100% on your device</title>
+    <meta
+      name="description"
+      content="Clean up, merge, and de-duplicate your iPhone contacts from a vCard (.vcf) export. Everything runs locally in your browser — nothing is ever uploaded."
+    />
+    <meta name="theme-color" content="#0a84ff" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <link rel="icon" href="icons/icon-192.png" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>iOS Contact Cleaner</h1>
+      <p class="tagline">
+        De-dupe &amp; merge your contacts — <strong>100% on your device</strong>
+      </p>
+      <p class="privacy-badge" title="No server, no uploads, no tracking">
+        🔒 Nothing leaves your phone. No upload, no account, no tracking.
+      </p>
+    </header>
+
+    <main>
+      <!-- Step 1: Landing / load -->
+      <section id="screen-landing" class="screen">
+        <div
+          id="dropzone"
+          class="dropzone"
+          tabindex="0"
+          role="button"
+          aria-label="Choose or drop a vCard file"
+        >
+          <p class="dropzone-icon">📇</p>
+          <p><strong>Tap to choose your contacts file</strong></p>
+          <p class="muted">or drag a <code>.vcf</code> file here</p>
+          <input
+            id="file-input"
+            type="file"
+            accept=".vcf,text/vcard,text/x-vcard"
+            multiple
+            hidden
+          />
+        </div>
+        <p id="load-error" class="error" hidden></p>
+
+        <details class="howto">
+          <summary>How do I get a <code>.vcf</code> file from my iPhone?</summary>
+          <div class="howto-body">
+            <p><strong>On the iPhone (no computer needed):</strong></p>
+            <ol>
+              <li>
+                Open the <strong>Contacts</strong> app and tap <strong>Lists</strong> (top-left).
+              </li>
+              <li>
+                Press and hold <strong>All Contacts</strong>, then tap <strong>Export</strong>.
+              </li>
+              <li>Choose <strong>Select All Fields</strong> (keeps photos, notes, birthdays).</li>
+              <li><strong>Save to Files</strong> — then come back here and choose that file.</li>
+            </ol>
+            <p class="muted">
+              Alternative: on any computer, sign in at <strong>iCloud.com → Contacts</strong>, click
+              the gear → <strong>Select All</strong> → <strong>Export vCard</strong>.
+            </p>
+          </div>
+        </details>
+      </section>
+
+      <!-- Step 2: Summary -->
+      <section id="screen-summary" class="screen" hidden>
+        <h2>Here's what I found</h2>
+        <ul id="summary-stats" class="stats"></ul>
+        <div class="backup-banner">
+          <p class="backup-warn"></p>
+          <button class="btn backup-btn" data-action="backup">⬇︎ Download backup (original)</button>
+        </div>
+        <div class="actions">
+          <button id="summary-continue" class="btn primary"></button>
+          <button class="btn ghost" data-action="reset">Start over</button>
+        </div>
+      </section>
+
+      <!-- Step 3: Review ambiguous groups -->
+      <section id="screen-review" class="screen" hidden>
+        <h2>Review possible duplicates</h2>
+        <p class="muted">
+          These weren't obvious enough to merge automatically. Confirm the ones you want combined.
+        </p>
+        <div id="review-list"></div>
+        <div class="actions">
+          <button id="review-continue" class="btn primary">Continue</button>
+          <button class="btn ghost" data-action="reset">Start over</button>
+        </div>
+      </section>
+
+      <!-- Step 4: Preview (dry-run report + formatting toggles) -->
+      <section id="screen-preview" class="screen" hidden>
+        <h2>Preview — here's exactly what would happen</h2>
+        <p class="muted">Nothing has changed yet. Review below, then create your cleaned file.</p>
+        <ul id="preview-stats" class="stats"></ul>
+
+        <p id="preview-nothing" class="muted" hidden>
+          ✅ Your contacts already look clean — no duplicates to merge and nothing to tidy.
+        </p>
+
+        <h3 class="section-title">Merges</h3>
+        <div id="preview-merges"></div>
+
+        <h3 class="section-title">Formatting fixes</h3>
+        <p class="muted">Optional clean-ups. Untick anything you'd rather keep as-is.</p>
+        <div id="format-controls" class="format-controls">
+          <button class="btn ghost small" data-action="select-all-fixes">Select all</button>
+          <button class="btn ghost small" data-action="select-no-fixes">Select none</button>
+        </div>
+        <div id="preview-fixes"></div>
+
+        <div class="actions">
+          <button id="preview-continue" class="btn primary">Create cleaned file</button>
+          <button class="btn ghost" data-action="reset">Start over</button>
+        </div>
+      </section>
+
+      <!-- Step 5: Export -->
+      <section id="screen-export" class="screen" hidden>
+        <h2>Your cleaned contacts are ready</h2>
+        <ul id="export-stats" class="stats"></ul>
+        <div class="backup-banner">
+          <p class="backup-warn"></p>
+          <button class="btn backup-btn" data-action="backup">⬇︎ Download backup (original)</button>
+        </div>
+        <div class="actions">
+          <button id="download-btn" class="btn primary">⬇︎ Download cleaned .vcf</button>
+          <button class="btn ghost" data-action="reset">Start over</button>
+        </div>
+
+        <details class="howto" open>
+          <summary>How to import the cleaned file back into iPhone</summary>
+          <div class="howto-body">
+            <p class="warn">
+              ⚠︎ Importing <em>adds</em> contacts — it doesn't replace them. If you import on top of
+              your current contacts you'll create duplicates again.
+            </p>
+            <p><strong>To fully replace your contacts:</strong></p>
+            <ol>
+              <li>
+                Delete the old ones first — easiest at <strong>iCloud.com → Contacts</strong> →
+                <strong>Select All</strong> → <strong>Delete</strong>.
+              </li>
+              <li>
+                Open the downloaded <code>.vcf</code> (from Files or iCloud.com → Import vCard).
+              </li>
+              <li>Confirm <strong>Add All Contacts</strong>.</li>
+            </ol>
+            <p class="muted">
+              Prefer to be cautious? Keep your original export as a backup until you're happy.
+            </p>
+          </div>
+        </details>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>
+        Free &amp; open source (MIT).
+        <a href="https://github.com/pbuffolino/ios-contact-cleaner" rel="noopener">View the code</a>
+        — verify for yourself that nothing is uploaded.
+      </p>
+    </footer>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

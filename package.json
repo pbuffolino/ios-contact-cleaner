@@ -1,0 +1,21 @@
+{
+  "name": "ios-contact-cleaner",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "100% local, in-browser tool to de-dupe, merge, and tidy iOS contacts from a vCard (.vcf) export. No build step, no server, nothing uploaded.",
+  "scripts": {
+    "test": "node --test",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write ."
+  },
+  "author": "seeknay",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-html": "^8.1.4",
+    "globals": "^15.0.0",
+    "prettier": "^3.8.1"
+  }
+}

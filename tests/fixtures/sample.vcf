@@ -1,0 +1,37 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Smith;John;;;
+FN:John Smith
+TEL;type=CELL;type=VOICE;type=pref:+1 (555) 123-4567
+EMAIL;type=INTERNET;type=HOME:john@example.com
+item1.TEL:555-987-6543
+item1.X-ABLabel:_$!<Home>!$_
+ORG:Acme Inc.
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:Smith;John;;;
+FN:JOHN SMITH
+TEL;type=CELL:555.123.4567
+EMAIL;type=WORK:john.smith@work.com
+NOTE:Met at the conference
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:Doe;Jane;;;
+FN:Jane Doe
+EMAIL:jane@example.com
+TEL:+1-555-222-3333
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:Doe;Jane;;;
+FN:jane doe
+TEL:5552223333
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:Solo;Han;;;
+FN:Han Solo
+TEL:555-000-1111
+END:VCARD
