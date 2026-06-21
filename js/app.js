@@ -204,7 +204,7 @@ function renderReview() {
         el("p", { class: "reason", text: group.reason }),
         ...members.map(contactRow),
         namePick,
-        el("div", { class: "toggle-row" }, [mergeBtn, keepBtn]),
+        el("div", { class: "segmented" }, [mergeBtn, keepBtn]),
       ])
     );
     sync();
@@ -288,8 +288,7 @@ function renderFixes() {
     const contact = contactName(state.mergedCards[fix.cardIndex]);
     wrap.appendChild(
       el("label", { class: "fix", for: `fix-${fix.id}` }, [
-        cb,
-        el("div", {}, [
+        el("div", { class: "fix-text" }, [
           el("div", { class: "kind", text: fixLabel(fix) + " · " + contact }),
           el("div", { class: "diff" }, [
             el("span", { class: "before", text: prettyValue(fix.name, fix.before) }),
@@ -297,6 +296,7 @@ function renderFixes() {
             el("span", { class: "after", text: prettyValue(fix.name, fix.after) }),
           ]),
         ]),
+        cb,
       ])
     );
   }
@@ -383,6 +383,12 @@ function wire() {
   $("#download-btn").addEventListener("click", () =>
     saveBlob(serializeVCards(state.mergedCards), "contacts-cleaned.vcf")
   );
+
+  // Collapse the large title into the compact nav bar once it scrolls away.
+  const navBar = $("#nav-bar");
+  const syncNav = () => navBar.classList.toggle("scrolled", window.scrollY > 28);
+  window.addEventListener("scroll", syncNav, { passive: true });
+  syncNav();
 
   document.body.addEventListener("click", (e) => {
     const action = e.target.dataset?.action;

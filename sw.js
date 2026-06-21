@@ -2,7 +2,7 @@
 // PWA. It only ever caches the app's own static files; contact data never
 // touches the cache (it's only ever held in memory while the page is open).
 
-const CACHE = "contact-cleaner-v1";
+const CACHE = "contact-cleaner-v2";
 const SHELL = [
   ".",
   "index.html",
