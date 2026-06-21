@@ -2,10 +2,16 @@
 
 **De-dupe, merge, and tidy your iPhone contacts — 100% in your browser. Nothing is ever uploaded.**
 
+[![Status: prototype](https://img.shields.io/badge/status-prototype%20%C2%B7%20untested-red.svg)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Runtime dependencies: 0](https://img.shields.io/badge/runtime%20deps-0-brightgreen.svg)](#under-the-hood)
 [![Works offline](https://img.shields.io/badge/works-offline-success.svg)](#privacy)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-orange.svg)](#contributing)
+
+> ⚠️ **Prototype, untested.** This is an early prototype and has not been tested
+> end to end. Treat it as experimental. Do not rely on it as the only copy of your
+> contacts. Always keep your original export (or the in-app backup) until you have
+> checked the result yourself.
 
 A tiny, open-source web app that cleans up a vCard (`.vcf`) export from your iPhone: it finds and merges duplicate contacts, tidies up names and spacing, and hands you a cleaned `.vcf` to import back. Everything happens locally on your device — there's **no server, no account, and no network request with your data**. You can verify that yourself: open your browser's DevTools and watch the Network tab stay empty after the page loads, or just read the code.
 
